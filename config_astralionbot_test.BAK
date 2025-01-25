@@ -1,0 +1,181 @@
+
+{
+    "$schema": "https://schema.freqtrade.io/schema.json",
+    "max_open_trades": 3,
+    "timeframe": "1m",
+    "dry_run": true,
+    "cancel_open_orders_on_exit": false,
+    "strategy_path" : "user_data/strategies",
+    "strategy" : "AstralionBotTestStrat",
+    "bid_strategy": {
+        "price_side": "ask",
+        "ask_last_balance": 0.0,
+        "use_order_book": false,
+        "order_book_top": 1,
+        "check_depth_of_market": {
+            "enabled": false,
+            "bids_to_ask_delta": 1
+        }
+    },
+    "ask_strategy": {
+        "price_side": "bid",
+        "use_order_book": false,
+        "order_book_min": 1,
+        "order_book_max": 1
+    },
+    "stake_currency": "USDT",
+    "stake_amount": 1000,
+    "tradable_balance_ratio": 0.99,
+    "fiat_display_currency": "USD",
+    "dry_run": true,
+    "dry_run_wallet": 3600,
+    "cancel_open_orders_on_exit": false,
+    "trading_mode": "spot",
+    "margin_mode": "",
+    "unfilledtimeout": {
+        "entry": 10,
+        "exit": 10,
+        "exit_timeout_count": 0,
+        "unit": "minutes"
+    },
+    "entry_pricing": {
+        "price_side": "same",
+        "use_order_book": true,
+        "order_book_top": 1,
+        "price_last_balance": 0.0,
+        "check_depth_of_market": {
+            "enabled": false,
+            "bids_to_ask_delta": 1
+        }
+    },
+    "exit_pricing":{
+        "price_side": "same",
+        "use_order_book": true,
+        "order_book_top": 1
+    },
+    "exchange": {
+        "name": "binance",
+        "key": "tffDcqP2NyWKMTSZHx80ApgLIlyYpyqjRniTekNuaQ1VEpNxmUNLNVJkYOv7rkQf",
+        "secret": "gnfcUY3AxhwItkljLxoqb3bEf5LFT8TZC525p2rKOMaaoAuPtb7AmL1DVCZTEskA",
+        "ccxt_config": {},
+        "ccxt_async_config": {},
+        "pair_whitelist": [
+            "ADA/USDT",
+            "ALGO/USDT",
+            "ALPHA/USDT",
+            "ATOM/USDT",
+            "AVA/USDT",
+            "BAKE/USDT",
+            "BCC/USDT",
+            "BCH/USDT",
+            "BEAM/USDT",
+            "BTC/USDT",
+            "BUSD/USDT",
+            "CAKE/USDT",
+            "COS/USDT",
+            "CVC/USDT",
+            "DAI/USDT",
+            "DASH/USDT",
+            "DATA/USDT",
+            "DOCK/USDT",
+            "DOGE/USDT",
+            "DOT/USDT",
+            "DNT/USDT",
+            "EOS/USDT",
+            "ETC/USDT",
+            "ETH/USDT",
+            "FIO/USDT",
+            "FUN/USDT",
+            "GTC/USDT",
+            "GTO/USDT",
+            "HIVE/USDT",
+            "IOTA/USDT",
+            "LINK/USDT",
+            "LRC/USDT",
+            "LTC/USDT",
+            "LUNA/USDT",
+            "MATIC/USDT",
+            "MDT/USDT",
+            "MKR/USDT",
+            "NANO/USDT",
+            "NEAR/USDT",
+            "NEO/USDT",
+            "ONE/USDT",
+            "POND/USDT",
+            "QTUM/USDT",
+            "REEF/USDT",
+            "SHIB/USDT",
+            "STRAX/USDT",
+            "THETA/USDT",
+            "TROY/USDT",
+            "TRX/USDT",
+            "VET/USDT",
+            "WRX/USDT",
+            "XLM/USDT",
+            "XRP/USDT",
+            "ZRX/USDT"
+        ],
+        "pair_blacklist": [
+            "BNB/.*"
+        ]
+    },
+    "pairlists": [
+        {
+            "method": "VolumePairList",
+            "number_assets": 20,
+            "sort_key": "quoteVolume",
+            "min_value": 0,
+            "refresh_period": 1800
+        }
+    ],
+    "telegram": {
+        "enabled": false,
+        "token": "",
+        "chat_id": ""
+    },
+    "api_server": {
+        "enabled": true,
+        "listen_ip_address": "127.0.0.1",
+        "listen_port": 8080,
+        "verbosity": "error",
+        "enable_openapi": false,
+        "jwt_secret_key": "9c79db0218f1a7c0bf13035a2b4a18ae8f8a3c7e28b11fb690d796feef803839",
+        "ws_token": "ZK7y4q7vBg4d7wxuUvMOFMEjozKge2jFjQ",
+        "CORS_origins": [],
+        "username": "freqtrader",
+        "password": "test"
+    },
+    "external_mqtt_server": {
+        "enabled": true,
+        "host": "k45f49f2.ala.us-east-1.emqxsl.com",
+        "port": 8883,
+        "protocol": "tls",
+        "username": "testt3st",
+        "password": "testt3st",
+        "topic": "freqtrade/messages",
+        "retain": true,
+        "pool_size": 2,
+        "client_id_prefix": "astralionbot_",
+        "allow_custom_messages": true
+    },
+    "datadir": "user_data/data/binance",
+    "logfile": "user_data/logs/freqtrade.log",
+    "pairlists": [
+        {"method": "StaticPairList"},
+        {"method": "AgeFilter", "min_days_listed": 30},
+        {"method": "ShuffleFilter", "seed": 42},
+        //{"method": "PrecisionFilter"},
+        {
+            "method": "RangeStabilityFilter",
+            "lookback_days": 3,
+            "min_rate_of_change": 0.02,
+            "refresh_period": 1440
+        }
+    ],
+    "bot_name": "astralionbot-test",
+    "initial_state": "running",
+    "force_entry_enable": false,
+    "internals": {
+        "process_throttle_secs": 5
+    }
+}
