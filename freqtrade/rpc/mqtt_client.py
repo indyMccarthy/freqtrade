@@ -4,19 +4,19 @@ This module contains the MqttClient class, which handles external MQTT messaging
 
 import json
 import logging
-from queue import Queue
-from threading import Lock
-from typing import Any, Dict, Optional
 import uuid
 from datetime import datetime
+from queue import Queue
+from threading import Lock
+from typing import Any
+
+import paho.mqtt.client as mqtt
 
 from freqtrade.constants import PairWithTimeframe
 from freqtrade.enums.rpcmessagetype import RPCMessageType
 from freqtrade.exceptions import OperationalException
-from freqtrade.rpc.rpc import RPC
-import paho.mqtt.client as mqtt
-
 from freqtrade.rpc import RPCHandler
+from freqtrade.rpc.rpc import RPC
 from freqtrade.rpc.rpc_types import RPCSendMsg
 
 
@@ -37,7 +37,7 @@ class MqttConnection:
     Represents a single MQTT connection in the pool
     """
 
-    def __init__(self, config: Dict[str, Any], short_uuid: str, connection_num: int):
+    def __init__(self, config: dict[str, Any], short_uuid: str, connection_num: int):
         mqtt_config = config.get("external_mqtt_server", {})
         client_id_prefix = mqtt_config.get("client_id_prefix", "freqtrade_")
         client_id = f"{client_id_prefix}{short_uuid}_{connection_num}"
@@ -72,7 +72,7 @@ class MqttClient(RPCHandler):
     _has_rpc: bool = False
     _rpc: RPC = None
 
-    def __init__(self, config: Dict[str, Any]) -> None:
+    def __init__(self, config: dict[str, Any]) -> None:
         """
         Initialize MQTT client
         """
@@ -90,7 +90,7 @@ class MqttClient(RPCHandler):
         self._short_uuid = str(uuid.uuid4())[:8]
 
         # Add tracking for sent records - using list instead of set to maintain order
-        self._sent_records: Dict[str, list] = {}
+        self._sent_records: dict[str, list] = {}
         self._max_records_per_topic = 3  # Keep only last 3 records
 
         # Initialize connection pool
@@ -106,7 +106,7 @@ class MqttClient(RPCHandler):
             logger.error(f"Failed to initialize MQTT connection pool: {e}")
             raise
 
-    def _get_connection(self) -> Optional[MqttConnection]:
+    def _get_connection(self) -> MqttConnection | None:
         """Get an available connection from the pool"""
         with self._pool_lock:
             for conn in self._connection_pool:
@@ -199,7 +199,8 @@ class MqttClient(RPCHandler):
 
                     # Publish the message with custom JSON encoder
                     connection.client.publish(
-                        base_topic, json.dumps(indicator_msg, cls=DateTimeEncoder), qos=1, retain=self._retain
+                        base_topic, json.dumps(indicator_msg, cls=DateTimeEncoder), qos=1,
+                        retain=self._retain
                     )
                     logger.debug(f"Published indicators to MQTT topic {base_topic}")
 
