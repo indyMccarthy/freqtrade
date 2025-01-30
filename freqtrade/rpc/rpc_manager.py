@@ -54,6 +54,15 @@ class RPCManager:
             apiserver.add_rpc_handler(self._rpc)
             self.registered_modules.append(apiserver)
 
+        # Enable local rest api server for cmd line control
+        if config.get("external_mqtt_server", {}).get("enabled", False):
+            logger.info("Enabling rpc.external_mqtt_server")
+            from freqtrade.rpc.mqtt_client import MqttClient
+
+            mqttclient = MqttClient(config)
+            mqttclient.add_rpc_handler(self._rpc)
+            self.registered_modules.append(mqttclient)
+
     def cleanup(self) -> None:
         """Stops all enabled rpc modules"""
         logger.info("Cleaning up rpc modules ...")
